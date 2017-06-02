@@ -1,5 +1,5 @@
-# curve-fitting
-A simple curve fitting algorithm in JavaScript
+# JavaScript SPLINE
+A simple spline algorithm in JavaScript
 
 
 obs.: it's using math.js, see more at http://mathjs.org/docs/index.html
