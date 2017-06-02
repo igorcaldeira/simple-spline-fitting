@@ -1,0 +1,50 @@
+<!doctype html>
+<html ng-app="rkApp"  ng-controller="TodoListController">
+  <head>
+
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="angular.min.js"></script>
+    <script src="d3.min.js"></script>
+    <script src="function-plot.js"></script>
+    <script src="math.min.js"></script>
+    <script src="script.js"></script>
+    <!-- <script src="scriptxyz.js"></script> -->
+    <style>
+        body{
+            padding: 20px;
+        }
+        button, input, select, textarea {
+            margin-bottom: 15px;
+        }
+        .form-inline label {
+            width: 50px;
+            margin-bottom: 20px;
+        }
+    </style>
+  </head>
+  <body>
+    <h2>Spline</h2>
+    <br>
+    <form class="form-inline">
+        <div class="col-sm-10" ng-repeat="p in points">
+            X &nbsp; <input type="" name="" ng-model="p[0]">
+            Y &nbsp; <input type="" name="" ng-model="p[1]"><br>
+        </div>
+        <br>
+        <div class="form-group">
+            <div class="col-sm-4">
+                <input type="submit" class="btn btn-default" value="start" name="start" ng-click="start()">
+            </div>
+            <div class="col-sm-4">
+                <input type="submit" class="btn btn-default" value="add point" name="+" ng-click="addPoint()">
+            </div>
+        </div>
+    </form>
+    <div ng-show="finished">
+        <br><br>
+        <!-- <b>  Equation: {{resultString[0]}}</b> -->
+        <div id="plotter"></div>
+        <br><hr><br>
+    </div>
+  </body>
+</html>
