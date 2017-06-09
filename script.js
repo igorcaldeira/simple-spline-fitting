@@ -25,25 +25,32 @@ app.controller('TodoListController', ['$scope', function($scope) {
 
     $scope.start = function(){
 
+        for (var pi = $scope.points.length - 1; pi >= 0; pi--) {
+            for (var pk = $scope.points.length - 1; pi >= 0; pi--) {
+                $scope.points[pi][pk] = parseFloat($scope.points[pi][pk]);
+            }
+        }
+
         let resultFunctionsString = [];
 
         $scope.finished = false;
 
         // define c. matrix (4 x 4)
-
         $scope.arrayA = [];
 
         for (let i = 0; i < $scope.points.length; i++) {
-            $scope.arrayA.push( [ math.pow($scope.points[i][0], 3), math.pow($scope.points[i][0], 2), $scope.points[i][0], 1 ]);
+            $scope.arrayA.push( [ math.pow(parseFloat($scope.points[i][0]), 3), math.pow(parseFloat($scope.points[i][0]), 2), parseFloat($scope.points[i][0]), 1 ]);
         }
 
         // define results array ( 4 x 1)
-
         $scope.arrayB = [];
 
         for (let i = 0; i < $scope.points.length; i++) {
-            $scope.arrayB.push($scope.points[i][1]);
+            $scope.arrayB.push(parseFloat($scope.points[i][1]));
         }
+
+        // console.log($scope.arrayA);
+        // console.log($scope.arrayB);
 
         // find H and it's points
         
@@ -58,10 +65,10 @@ app.controller('TodoListController', ['$scope', function($scope) {
             // console.log(h);
 
             // find all the sub points make the interpolation
-            xarray.push((h*1) + $scope.points[cont][0]);
-            xarray.push((h*2) + $scope.points[cont][0]);
-            xarray.push((h*3) + $scope.points[cont][0]);
-            xarray.push((h*4) + $scope.points[cont][0]);
+            xarray.push(parseFloat((h*1)) + parseFloat($scope.points[cont][0]));
+            xarray.push(parseFloat((h*2)) + parseFloat($scope.points[cont][0]));
+            xarray.push(parseFloat((h*3)) + parseFloat($scope.points[cont][0]));
+            xarray.push(parseFloat((h*4)) + parseFloat($scope.points[cont][0]));
 
             // find all the "Y" of the subpoints with lagrange
             let tempLGres = [[0],[0],[0],[0]];
@@ -84,8 +91,11 @@ app.controller('TodoListController', ['$scope', function($scope) {
                 }
                 
 
-                tempLGres[kcount][0] = $scope.lagrange($scope.points, $scope.n, xarray[kcount]);
+                tempLGres[kcount][0] = parseFloat($scope.lagrange($scope.points, $scope.n, xarray[kcount]));
             }
+
+            console.log(tempLGres);
+            console.log(leftArray);
 
             let Y;
             let X;
@@ -128,6 +138,16 @@ app.controller('TodoListController', ['$scope', function($scope) {
 
     $scope.lagrange = function(lgpontos, lgn, x){
 
+        // console.log(typeof lgpontos);
+        // console.log(typeof lgn);
+        // console.log(typeof x);
+
+        for (var pi = lgpontos.length - 1; pi >= 0; pi--) {
+            for (var pk = lgpontos.length - 1; pk >= 0; pk--) {
+                lgpontos[pi][pk] = parseFloat(lgpontos[pi][pk]);
+            }
+        }
+
         let a = 0;
         let b;
         let aux;
@@ -139,12 +159,40 @@ app.controller('TodoListController', ['$scope', function($scope) {
             for(let j=0; j < lgn; j++){
                 
                 if(j != index){
-                    aux = ((x - lgpontos[j][0]) / (lgpontos[index][0] - lgpontos[j][0]));
+
+                    // console.log("lgpontos[j][0]");
+                    // console.log(lgpontos[j][0]);
+                    // console.log(typeof lgpontos[j][0]);
+                    // console.log("lgpontos[index][0]");
+                    // console.log(lgpontos[index][0]);
+                    // console.log(typeof lgpontos[index][0]);
+                    // console.log("lgpontos[j][0]");
+                    // console.log(lgpontos[j][0]);
+                    // console.log(typeof lgpontos[j][0]);
+                    // console.log("x");
+                    // console.log(x);
+                    // console.log(typeof x);
+                    // console.log("----");
+                    // console.log("(parseFloat(x) - parseFloat(lgpontos[j][0]))");
+                    // console.log((parseFloat(x) - parseFloat(lgpontos[j][0])));
+                    // console.log("( parseFloat(lgpontos[index][0]) - parseFloat(lgpontos[j][0]))");
+                    // console.log(( parseFloat(lgpontos[index][0]) - parseFloat(lgpontos[j][0])));
+                    // console.log("----");
+
+                    aux = ((parseFloat(x) - parseFloat(lgpontos[j][0])) / ( parseFloat(lgpontos[index][0]) - parseFloat(lgpontos[j][0])));
+                    
+                    // console.log("aux");
+                    // console.log(aux);
+                    
                     b = b * aux;
+
+                    // console.log("b");
+                    // console.log(b);
                 }
             }
 
             a = a + (lgpontos[index][1] * b);
+
         }
 
         return Math.round10(a, -6);
